@@ -1,0 +1,84 @@
+{{!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> --}}
+{{!-- <script src="/static/jquery-1.9.1.js"></script> --}}
+<script src="/static/jquery-1.9.1.js"></script>
+<script src="/static/tableExport.js"></script>
+<script src="/static/jquery.base64.js"></script> 
+<script src="/static/html2canvas.js"></script> 
+<script src="/static/jspdf/libs/base64.js"></script> 
+<script src="/static/jspdf/libs/sprintf.js"></script> 
+<script src="/static/jspdf/jspdf.js"></script> 
+
+<style>
+	table, th, td {
+    border: 1px solid black;
+	}
+</style>
+<div class="container" id="mydiv">
+	<form method="post" action="/upload">
+		<input type="text" name="input_url" id="input_url" width="500px"> <input type="submit" value="Submit">
+
+	</form>
+	<button id = "export" href="javascript:void(0)"> Export</button>
+	<div id="docx">
+		<div class="WordSection1">
+			<table id="data">
+				<tr>
+					<th></th>
+					<th>Hình ảnh</th>
+					<th>Tên sản phẩm</th>
+				</tr>
+				{{#each products}}
+				<tr>
+					{{#with this}}
+					<td>{{stt}}</td>
+					<td class="img-class">
+						<img src="{{src}}" alt="" width="60px" height="60px"/>
+					</td>
+					<td class="name-class">
+						<span>{{name}}</span>
+					</td>
+					{{/with}}	
+				</tr>
+				{{/each}}
+			</table>
+			
+		</div>
+	</div>
+	
+	
+</div>
+<script >
+ window.export.onclick = function() {
+ 
+   if (!window.Blob) {
+      alert('Your legacy browser does not support this action.');
+      return;
+   }
+
+   var html, link, blob, url, css;
+   css = (
+     '<style>' +
+     '@page WordSection1{size: 841.95pt 595.35pt;mso-page-orientation: landscape;}' +
+     'div.WordSection1 {page: WordSection1;}' +
+     'table{border-collapse:collapse;}td,th{border:1px gray solid;padding:2px;}'+
+     'td{height:40px}'+
+     'img:{width:40px; height:40px}'+
+     '.name-class{width:200px;}'+
+     '</style>'
+   );
+   html = window.docx.innerHTML;
+   blob = new Blob(['\ufeff', css + html], {
+     type: 'application/msword'
+   });
+   url = URL.createObjectURL(blob);
+   link = document.createElement('A');
+   link.href = url;
+   // Set default file name. 
+   // Word will append file extension - do not add an extension here.
+   link.download = 'Document';   
+   document.body.appendChild(link);
+   if (navigator.msSaveOrOpenBlob ) navigator.msSaveOrOpenBlob( blob, 'Document.doc'); // IE10-11
+   		else link.click();  // other browsers
+   document.body.removeChild(link);
+ };
+</script>
