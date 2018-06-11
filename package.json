@@ -8,11 +8,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "\u0016\u0016https://github.com/viethapascal/crawler_projects.git"
+    "url": "https://github.com/viethapascal/crawler_projects.git"
   },
   "keywords": [
     "npm"
   ],
   "author": "nacava",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "express-handlebars": "^3.0.0",
+    "fs": "0.0.1-security",
+    "phantom": "^4.0.12",
+    "request": "^2.87.0"
+  }
 }
